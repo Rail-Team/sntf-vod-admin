@@ -1,3 +1,4 @@
+import { Modal, Input} from 'antd';
 import { useEffect, useState } from "react";
 import { AdsTable } from "../components/ads-table.component";
 import { MovieTable } from "../components/movies-table.component";
@@ -66,9 +67,103 @@ function GeneralBadges(){
 
 
   return <>
+
+    
     <div className="w-1/3 flex gap-5 flex-col">
+    	<TrainName/>
       <Badge iconClassName="shadow-[7px_7px_5px_0px_#edf2f7]" className="w-full bg-white border-solid border-2 border-neutral-100" icon={faUser} title="Total Users" value={total_users}/>
       <Badge iconClassName="shadow-[7px_7px_5px_0px_#e6bb12]" className="bg-yellow-400" icon={faCoffee} title="Today's Watch Time" value={total_watch_time_today || 0} />
     </div>
   </>
+}
+
+
+function TrainName(){
+
+	const [train,set_train] = useState({
+		id:null,
+		name:""
+	});  
+
+	const [show_modal,set_show_modal] = useState(false);
+
+	const [error_msg,set_error_msg] = useState("");
+
+	async function get_train(){
+		const res = await fetch("http://localhost:8080/api/train/");
+
+		if(res.status == 200){
+			const data = await res.json();
+			set_train(data);
+		}
+		else {
+			set_show_modal(true)
+		}
+	}
+
+	async function update_train_name(){
+		
+		console.log(train.name)
+
+		const res = await fetch("http://localhost:8080/api/train/up",{
+			method:"POST",
+			body:JSON.stringify({name:train.name}),
+			headers:{
+				"Content-Type":"application/json"
+			}
+		});
+		const data = await res.json();
+
+		set_train(data);
+		if(data.error && data.status === 404){
+			set_error_msg(data.error);
+		}else{
+			set_show_modal(false);
+		}
+
+	}
+
+	function on_ok(){
+		if(!train.name){
+			set_error_msg("Name is required");
+			return;
+		}
+
+		update_train_name();
+	}
+
+	function close(){
+		set_show_modal(false);
+	}
+	
+	useEffect(()=>{
+		get_train();
+	},[])	
+
+	return <>
+		{/* <Modal open={show_modal} onOk={on_ok} onClose={close} onCancel={close}>
+			<div className="mt-5">
+				<h3 className="mb-5 ml-5 font-bold italic">This Train doesn't have a name</h3>
+
+
+				<label htmlFor="company_name">
+					<p className="mb-3">Train Name</p>
+				</label>
+				<Input
+					id="company_name" value={train.name} 
+					onChange={(e)=>{
+						set_error_msg("");
+						set_train({...train,name:e.target.value})
+					}}
+					type="text" placeholder="Name..." className="p-3"
+				/>
+				{error_msg && <p className="py-2 text-red-500">{error_msg}</p>}
+			</div>
+		</Modal> */}
+
+		<Badge iconClassName="shadow-[7px_7px_5px_0px_#edf2f7]" 
+		className="w-full bg-white border-solid border-2 border-neutral-100"
+		icon={faCoffee} title="Train Name" value={train.name} />
+	</>
+
 }
