@@ -27,7 +27,7 @@ function GeneralBadges(){
   const [total_watch_time_today,set_total_watch_time_today] = useState('0');
 
   async function get_total_users(){
-    const res = await fetch("http://localhost:8080/api/stats/users/general");
+    const res = await fetch("http://192.168.10.8/api/stats/users/general");
     const data = await res.json();
     set_total_users(data.total_users);
   }
@@ -41,7 +41,7 @@ function GeneralBadges(){
     const end = new Date(start);
     end.setDate(end.getDate() + 1);
 
-    const res = await fetch("http://localhost:8080/api/stats/movies/watched",{
+    const res = await fetch("http://192.168.10.8/api/stats/movies/watched",{
       method:"POST",
       body:JSON.stringify({start:start.getTime(),end:end.getTime()}),
       headers:{
@@ -90,7 +90,7 @@ function TrainName(){
 	const [error_msg,set_error_msg] = useState("");
 
 	async function get_train(){
-		const res = await fetch("http://localhost:8080/api/train/");
+		const res = await fetch("http://192.168.10.8/api/train/");
 
 		if(res.status == 200){
 			const data = await res.json();
@@ -105,7 +105,7 @@ function TrainName(){
 		
 		console.log(train.name)
 
-		const res = await fetch("http://localhost:8080/api/train/up",{
+		const res = await fetch("http://192.168.10.8/api/train/up",{
 			method:"POST",
 			body:JSON.stringify({name:train.name}),
 			headers:{

@@ -27,7 +27,7 @@ export function AdsTable(){
   const [ads,set_ads] = useState<AdWatch[]>([]);
 
   async function get_ads(){
-    const res = await fetch("http://localhost:8080/api/stats/ads/general");
+    const res = await fetch("http://192.168.10.8/api/stats/ads/general");
     const data = await res.json();
     set_ads(data); 
   }
@@ -35,7 +35,7 @@ export function AdsTable(){
   const [ad_edit,set_ad_edit] = useState<Ad|null>(null);
  
   async function show_edit_modal(ad_id:string){
-    const res = await fetch( "http://localhost:8080/api/ads/"+ad_id);
+    const res = await fetch( "http://192.168.10.8/api/ads/"+ad_id);
     const ad = await res.json()
     set_ad_edit(ad)
   }
@@ -75,7 +75,7 @@ export function AdsTable(){
     form_data.append("title",ad_upload.title)
     form_data.append("skip_duration",String(ad_upload.skip_duration))
 
-    const res = await fetch(`http://localhost:8080/api/ads/upload`, {
+    const res = await fetch(`http://192.168.10.8/api/ads/upload`, {
       method: "POST",
       body: form_data,
     })
@@ -132,7 +132,7 @@ export function AdsTable(){
 
     const values = ads.map(e=>[e.company_name,e.title,e.total_views,e.total_watch_time])
 
-    const res = await fetch( "http://localhost:8080/api/files/pdf", {
+    const res = await fetch( "http://192.168.10.8/api/files/pdf", {
       method:"POST",
       headers:{
         "Content-Type":"application/json"
@@ -161,7 +161,7 @@ export function AdsTable(){
 
     const values = ads.map(e=>[e.company_name,e.title,e.total_views,e.total_watch_time])
 
-    const res = await fetch( "http://localhost:8080/api/files/excel", {
+    const res = await fetch( "http://192.168.10.8/api/files/excel", {
       method:"POST",
       headers:{
         "Content-Type":"application/json"
@@ -190,7 +190,7 @@ export function AdsTable(){
   
   async function update_ad_selected(){
 
-    await fetch( "http://localhost:8080/api/ads/update", {
+    await fetch( "http://192.168.10.8/api/ads/update", {
       method:"POST",
       headers:{
         "Content-Type":"application/json"

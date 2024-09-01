@@ -45,14 +45,14 @@ export function WeeklyWatchTime(){
         }
 
         const [movie_watch_time_res,users_this_week_res] = await Promise.all([
-          fetch( "http://localhost:8080/api/stats/movies/watched/this_week", {
+          fetch( "http://192.168.10.8/api/stats/movies/watched/this_week", {
               method:"POST",
               headers:{
               "Content-Type":"application/json"
               },
               body:JSON.stringify(payload)
           }),
-          fetch( "http://localhost:8080/api/stats/users/this_week", {
+          fetch( "http://192.168.10.8/api/stats/users/this_week", {
               method:"POST",
               headers:{
               "Content-Type":"application/json"
