@@ -32,11 +32,11 @@ export function WeeklyWatchTime(){
         let end;
 
         if(time === undefined){
-          start = Date.now() - 6 * 24 * 60 * 60 * 1000;
+          start = Date.now() - 7 * 24 * 60 * 60 * 1000;
           end = Date.now();
         }else{
           start = time;
-          end = time + 6 * 24 * 60 * 60 * 1000; 
+          end = time + 7 * 24 * 60 * 60 * 1000; 
         }
 
         const payload = {
@@ -45,14 +45,14 @@ export function WeeklyWatchTime(){
         }
 
         const [movie_watch_time_res,users_this_week_res] = await Promise.all([
-          fetch( "http://192.168.10.8/api/stats/movies/watched/this_week", {
+          fetch( "http://localhost:8080/api/stats/movies/watched/this_week", {
               method:"POST",
               headers:{
               "Content-Type":"application/json"
               },
               body:JSON.stringify(payload)
           }),
-          fetch( "http://192.168.10.8/api/stats/users/this_week", {
+          fetch( "http://localhost:8080/api/stats/users/this_week", {
               method:"POST",
               headers:{
               "Content-Type":"application/json"

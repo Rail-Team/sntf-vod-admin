@@ -35,7 +35,7 @@ export function MovieTable(){
     const [movies,set_movies] = useState<Movie[]>([]);
 
     async function get_movies(){
-    const res = await fetch("http://192.168.10.8/api/stats/movies/general");
+    const res = await fetch("http://localhost:8080/api/stats/movies/general");
     const data = await res.json();
     set_movies(data); 
     }
@@ -47,7 +47,7 @@ export function MovieTable(){
 
     const values = movies.map(e=>[e.name,e.total_views,e.total_watch_time])
 
-    const res = await fetch( "http://192.168.10.8/api/files/pdf", {
+    const res = await fetch( "http://localhost:8080/api/files/pdf", {
         method:"POST",
         headers:{
         "Content-Type":"application/json"
@@ -73,7 +73,7 @@ export function MovieTable(){
 
         const values = movies.map(e=>[e.name,e.total_views,e.total_watch_time])
 
-        const res = await fetch( "http://192.168.10.8/api/files/excel", {
+        const res = await fetch( "http://localhost:8080/api/files/excel", {
             method:"POST",
             headers:{
             "Content-Type":"application/json"

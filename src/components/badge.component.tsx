@@ -24,5 +24,7 @@ export function Badge({title,className,icon,iconClassName,value}:BadgeData){
         <FontAwesomeIcon icon={icon}/>
       </div>
     </div>
+
   </>
+
 }

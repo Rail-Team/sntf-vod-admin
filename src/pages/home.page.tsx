@@ -4,7 +4,7 @@ import { AdsTable } from "../components/ads-table.component";
 import { MovieTable } from "../components/movies-table.component";
 import { WeeklyWatchTime } from "../components/weekly-watch-time.component";
 import { Badge } from "../components/badge.component";
-import { faCoffee, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faCoffee, faTrain, faUser } from "@fortawesome/free-solid-svg-icons";
 import { format_time } from "../utils/time.utils";
 
 export function HomePage(){
@@ -27,7 +27,7 @@ function GeneralBadges(){
   const [total_watch_time_today,set_total_watch_time_today] = useState('0');
 
   async function get_total_users(){
-    const res = await fetch("http://192.168.10.8/api/stats/users/general");
+    const res = await fetch("http://localhost:8080/api/stats/users/general");
     const data = await res.json();
     set_total_users(data.total_users);
   }
@@ -41,7 +41,7 @@ function GeneralBadges(){
     const end = new Date(start);
     end.setDate(end.getDate() + 1);
 
-    const res = await fetch("http://192.168.10.8/api/stats/movies/watched",{
+    const res = await fetch("http://localhost:8080/api/stats/movies/watched",{
       method:"POST",
       body:JSON.stringify({start:start.getTime(),end:end.getTime()}),
       headers:{
@@ -90,7 +90,7 @@ function TrainName(){
 	const [error_msg,set_error_msg] = useState("");
 
 	async function get_train(){
-		const res = await fetch("http://192.168.10.8/api/train/");
+		const res = await fetch("http://localhost:8080/api/train/");
 
 		if(res.status == 200){
 			const data = await res.json();
@@ -105,7 +105,7 @@ function TrainName(){
 		
 		console.log(train.name)
 
-		const res = await fetch("http://192.168.10.8/api/train/up",{
+		const res = await fetch("http://localhost:8080/api/train/up",{
 			method:"POST",
 			body:JSON.stringify({name:train.name}),
 			headers:{
@@ -141,7 +141,7 @@ function TrainName(){
 	},[])	
 
 	return <>
-		{/* <Modal open={show_modal} onOk={on_ok} onClose={close} onCancel={close}>
+		<Modal open={show_modal} onOk={on_ok} onClose={close} onCancel={close}>
 			<div className="mt-5">
 				<h3 className="mb-5 ml-5 font-bold italic">This Train doesn't have a name</h3>
 
@@ -159,11 +159,11 @@ function TrainName(){
 				/>
 				{error_msg && <p className="py-2 text-red-500">{error_msg}</p>}
 			</div>
-		</Modal> */}
+		</Modal>
 
 		<Badge iconClassName="shadow-[7px_7px_5px_0px_#edf2f7]" 
 		className="w-full bg-white border-solid border-2 border-neutral-100"
-		icon={faCoffee} title="Train Name" value={train.name} />
+		icon={faTrain} title="Train Name" value={train.name} />
 	</>
 
 }
